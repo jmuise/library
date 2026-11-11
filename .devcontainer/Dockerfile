@@ -59,7 +59,5 @@ RUN set -eux; \
 # Nothing user-specific is baked in: no git identity, no tokens, no shell config.
 USER vscode
 
-# Claude Code CLI via the official installer (lands in ~/.local/bin/claude). The dotfiles
-# install no longer provides packages in a devcontainer (dotfiles #41), so the image does.
-RUN curl -fsSL https://claude.ai/install.sh | bash
+# Per-user tools (installed by the user's own dotfiles, not by this image) land in ~/.local/bin.
 ENV PATH="/home/vscode/.local/bin:${PATH}"
