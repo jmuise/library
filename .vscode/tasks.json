@@ -1,0 +1,11 @@
+{
+  // Mirror of the local CI lint entry points. This file is a mirror, not a second
+  // source of truth -- when an entry point is added or renamed, update it here as well.
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "actionlint", "type": "shell", "command": "actionlint", "group": "test", "detail": "Lint GitHub Actions workflows.", "problemMatcher": [] },
+    { "label": "zizmor .", "type": "shell", "command": "zizmor .", "group": "test", "detail": "Audit workflows for security issues.", "problemMatcher": [] },
+    { "label": "hadolint Dockerfile", "type": "shell", "command": "hadolint Dockerfile", "group": "test", "detail": "Lint the distribution image Dockerfile (once it exists).", "problemMatcher": [] },
+    { "label": "shellcheck", "type": "shell", "command": "git ls-files -z '*.sh' | xargs -0 -r shellcheck", "group": "test", "detail": "Lint tracked shell scripts.", "problemMatcher": [] }
+  ]
+}
