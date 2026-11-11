@@ -1,0 +1,35 @@
+{
+  "name": "library",
+  "build": {
+    "context": "..",
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspaces/library",
+  "remoteUser": "vscode",
+
+  // Exact pins: a floating major would let a rebuild pull different tooling.
+  // docker-in-docker (not the host socket) so the container can build and run images and
+  // reach their published ports on its own localhost; it ships buildx; multi-arch
+  // builds need QEMU binfmt (see CLAUDE.md). The feature requests a privileged container itself.
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4.1.3": {},
+    "ghcr.io/devcontainers/features/github-cli:1.1.2": {}
+  },
+
+  // The coming-soon page (Caddy) listens on 8080 in the container image; forward it when run.
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": { "label": "library (caddy)", "onAutoForward": "silent" }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "timonwong.shellcheck",
+        "exiasr.hadolint",
+        "github.vscode-github-actions"
+      ]
+    }
+  }
+}
