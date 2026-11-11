@@ -5,8 +5,8 @@ Self-hostable "lending library" web app (AGPL-3.0, github.com/jmuise/library). C
 ## Develop
 
 - Open in the devcontainer (Debian bookworm, `.devcontainer/Dockerfile`). No backing services.
-- Pinned tools: actionlint 1.7.12, zizmor 1.32.0, hadolint 2.15.1, shellcheck 0.11.0, flyctl 0.5.7 (also `fly`), jq, gh, Claude Code CLI. Binaries are checksum-verified per architecture; bump version and both hashes together.
-- Docker is docker-in-docker (devcontainer feature), not the host socket: images built or run inside stay inside, and published ports are reachable on the container's localhost. Multi-arch builds need QEMU: `docker run --privileged --rm tonistiigi/binfmt --install arm64` once per container, then `docker buildx build --platform linux/amd64,linux/arm64 .`.
+- Pinned tools: actionlint 1.7.12, zizmor 1.32.0, hadolint 2.15.1, shellcheck 0.11.0, flyctl 0.5.7 (also `fly`), jq, gh 2.103.3, Claude Code CLI 2.1.322 (auto-update disabled). Binaries are checksum-verified per architecture; bump version and both hashes together.
+- Docker is docker-in-docker (devcontainer feature), not the host socket: images built or run inside stay inside, and published ports are reachable on the container's localhost. Multi-arch builds need QEMU: `docker run --privileged --rm tonistiigi/binfmt:qemu-v10.2.3@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0 --install arm64` once per container, then `docker buildx build --platform linux/amd64,linux/arm64 .`.
 - VS Code tasks in `.vscode/tasks.json` mirror the lint commands: `actionlint`, `zizmor .`, `hadolint Dockerfile`, `shellcheck`.
 - Port 8080 (the Caddy container port) is forwarded.
 
