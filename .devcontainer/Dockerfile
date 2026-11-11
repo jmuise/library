@@ -59,24 +59,5 @@ RUN set -eux; \
 # Nothing user-specific is baked in: no git identity, no tokens, no shell config.
 USER vscode
 
-# Claude Code CLI 2.1.322, pinned and checksum-verified per architecture (not curl|sh).
-# This mirrors what install.sh does, minus its "latest" lookup: fetch the versioned binary from
-# the release bucket, verify its sha256 (the values below were computed from the downloaded
-# artifacts and match the release manifest.json), then let the binary set up ~/.local/bin/claude.
-# Bump version and both hashes together. DISABLE_AUTOUPDATER stops the CLI replacing itself
-# so the pin holds. The dotfiles install no longer provides packages in a devcontainer
-# (dotfiles #41), so the image does.
-ENV DISABLE_AUTOUPDATER=1
-RUN set -eux; \
-    case "$(dpkg --print-architecture)" in \
-        amd64) cc=bfb3703ad5380242328459bc62ada4bde8ae7ba57c6e1eeadb9c00e08874c478; ccarch=linux-x64 ;; \
-        arm64) cc=f220ca50ea4f3222043ff83cc224a1262e0196e9897acc0871efa94235b0c1fd; ccarch=linux-arm64 ;; \
-        *) echo "unsupported architecture" >&2; exit 1 ;; \
-    esac; \
-    curl --fail --silent --show-error --location --output /tmp/claude "https://downloads.claude.ai/claude-code-releases/2.1.322/${ccarch}/claude"; \
-    echo "${cc}  /tmp/claude" | sha256sum --check --strict; \
-    chmod 0755 /tmp/claude; \
-    /tmp/claude install 2.1.322; \
-    rm -f /tmp/claude; \
-    /home/vscode/.local/bin/claude --version
+# Per-user tools (installed by the user's own dotfiles, not by this image) land in ~/.local/bin.
 ENV PATH="/home/vscode/.local/bin:${PATH}"
